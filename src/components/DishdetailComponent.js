@@ -22,7 +22,7 @@ class DishDetail extends Component {
 
 const renderDish = (dish) => {
     return (
-        <div>
+        <div >
             <Card>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardBody>
@@ -37,15 +37,12 @@ const renderDish = (dish) => {
 const renderComments = (comments) => {
     const getComments = comments.map((comment) => {
         return (
-            <div key={comment.id} className="mb-3">
-                <div>
-                    <div> {comment.comment}</div>
-
-                    <div>
-                        --{comment.author} , {comment.date}
-                    </div>
-                </div>
-            </div>
+	        <div key={Comment.id} >
+		        <ul className="list-unstyled">
+			        <li>{Comment.comment}</li>
+			        <li>--{Comment.author}, {Comment.date}.</li>
+		        </ul>
+	        </div>
         )
     })
 

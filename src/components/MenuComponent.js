@@ -30,7 +30,7 @@ class Menu extends Component {
     }
 
     render() {
-        const { selectedDish } = this.state //object re-structuring
+        const { selectedDish } = this.state; //object re-structuring
         const menu = this.props.dishes.map((dish) => {
             return (
                 <div key={dish.id} className="col-12 col-md-5 m-1 ">
