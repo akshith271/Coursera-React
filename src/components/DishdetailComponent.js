@@ -1,28 +1,27 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardImg, CardText, CardTitle } from 'reactstrap'
 
-class DishDetail extends Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        const dish = this.props.dish
-
+function DishDetail(props) {
+    {
         return (
-            <div className="row">
-                <div className="col-12 col-md-5 m-1 ">{renderDish(dish)}</div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1 ">
+                        <RenderDish dish={props.dish} />
+                    </div>
 
-                <div className="col-12 col-md-6 m-1 ">
-                    {renderComments(dish.comments)}
+                    <div className="col-12 col-md-6 m-1 ">
+                        <RenderComments comments={props.dish.comments} />
+                    </div>
                 </div>
             </div>
         )
     }
 }
 
-const renderDish = (dish) => {
+function RenderDish({ dish }) {
     return (
-        <div >
+        <div>
             <Card>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardBody>
@@ -34,15 +33,22 @@ const renderDish = (dish) => {
     )
 }
 
-const renderComments = (comments) => {
+function RenderComments({ comments }) {
     const getComments = comments.map((comment) => {
         return (
-	        <div key={Comment.id} >
-		        <ul className="list-unstyled">
-			        <li>{Comment.comment}</li>
-			        <li>--{Comment.author}, {Comment.date}.</li>
-		        </ul>
-	        </div>
+            <div key={comment.id}>
+                <ul className="list-unstyled">
+                    <li>{comment.comment}</li>
+                    <li>
+                        --{comment.author},{' '}
+                        {new Intl.DateTimeFormat('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: '2-digit',
+                        }).format(new Date(Date.parse(comment.date)))}
+                    </li>
+                </ul>
+            </div>
         )
     })
 
