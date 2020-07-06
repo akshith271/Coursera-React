@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react'
 import {
     Nav,
     Navbar,
@@ -9,13 +9,13 @@ import {
     Jumbotron,
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
-import Home from "./HomeComponent";
+import Home from './HomeComponent'
 
 class Header extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
-        this.toggleNav = this.toggleNav.bind(this); //property binding
+        this.toggleNav = this.toggleNav.bind(this) //property binding
         this.state = {
             isNavOpen: false,
         }
@@ -45,19 +45,19 @@ class Header extends Component {
                             <Nav navbar>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/home">
-                                        <span className="fa fa-home fa-lg"/>{' '}
+                                        <span className="fa fa-home fa-lg" />{' '}
                                         Home
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/aboutus">
-                                        <span className="fa fa-info fa-lg"/>{' '}
+                                        <span className="fa fa-info fa-lg" />{' '}
                                         About Us
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/menu">
-                                        <span className="fa fa-list fa-lg"/>{' '}
+                                        <span className="fa fa-list fa-lg" />{' '}
                                         Menu
                                     </NavLink>
                                 </NavItem>
@@ -66,7 +66,7 @@ class Header extends Component {
                                         className="nav-link"
                                         to="/contactus"
                                     >
-                                        <span className="fa fa-address-card fa-lg"/>{' '}
+                                        <span className="fa fa-address-card fa-lg" />{' '}
                                         Contact Us
                                     </NavLink>
                                 </NavItem>
@@ -93,4 +93,4 @@ class Header extends Component {
         )
     }
 }
-export default Header;
+export default Header

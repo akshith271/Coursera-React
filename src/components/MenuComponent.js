@@ -1,19 +1,27 @@
-import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React from 'react'
+import {
+    Card,
+    CardImg,
+    CardImgOverlay,
+    CardTitle,
+    Breadcrumb,
+    BreadcrumbItem,
+} from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-function RenderMenuItem({dish, onClick}) {
-    return(
+function RenderMenuItem({ dish, onClick }) {
+    return (
         <Card>
             <Link to={`/menu/${dish.id}`}>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardImgOverlay>
-                    <CardTitle><strong>{dish.name}</strong></CardTitle>
+                    <CardTitle>
+                        <strong>{dish.name}</strong>
+                    </CardTitle>
                 </CardImgOverlay>
             </Link>
         </Card>
-    
-    );
+    )
 }
 
 const Menu = (props) => {
@@ -22,14 +30,16 @@ const Menu = (props) => {
             <div key={dish.id} className="col-12 col-md-5 m-1">
                 <RenderMenuItem dish={dish} />
             </div>
-        );
-    });
-    
+        )
+    })
+
     return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
-                    <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link to="/home">Home</Link>
+                    </BreadcrumbItem>
                     <BreadcrumbItem active>Menu</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12">
@@ -37,14 +47,10 @@ const Menu = (props) => {
                     <hr />
                 </div>
             </div>
-            <div className="row">
-                {menu}
-            </div>
-            <div className="row">
-            
-            </div>
+            <div className="row">{menu}</div>
+            <div className="row"/>
         </div>
-    );
+    )
 }
 
-export default Menu;
+export default Menu
