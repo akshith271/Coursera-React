@@ -14,7 +14,7 @@ import About from './AboutComponent'
 
 class Main extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             dishes: DISHES,
@@ -41,7 +41,7 @@ class Main extends Component {
                     }
                 />
             )
-        }
+        };
 
         const DishWithId = ({ match }) => {
             return (
@@ -58,7 +58,7 @@ class Main extends Component {
                     )}
                 />
             )
-        }
+        };
 
         return (
             <div>
