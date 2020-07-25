@@ -17,22 +17,24 @@ import {
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
+import {Loading} from "./LoadingComponent";
 
-const required = (val) => val && val.length
-const maxLength = (len) => (val) => !val || val.length <= len
-const minLength = (len) => (val) => val && val.length >= len
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
 class CommentForm extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isModalOpen: false,
-        }
+        };
         this.toggleModal = this.toggleModal.bind(this)
     }
 
     handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values))
-        alert('Current State is: ' + JSON.stringify(values))
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+    
         // event.preventDefault();
     }
 
@@ -83,9 +85,9 @@ class CommentForm extends Component {
                                 </Label>
                                 <Col md={12}>
                                     <Control.text
-                                        model=".yourname"
-                                        id="yourname"
-                                        name="yourname"
+                                        model=".name"
+                                        id="name"
+                                        name="name"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
@@ -96,7 +98,7 @@ class CommentForm extends Component {
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".yourname"
+                                        model=".name"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -109,7 +111,7 @@ class CommentForm extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="yourname" className="ml-3">
+                                <Label htmlFor="name" className="ml-3">
                                     Comment
                                 </Label>
                                 <Col md={12}>
@@ -152,11 +154,11 @@ function RenderDish({ dish }) {
             </Card>
         )
     } else {
-        return <div></div>
+        return <div/>
     }
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId }) {
     if (comments != null) {
         return (
             <div className="col-12 col-md-5 m-1">
@@ -180,16 +182,37 @@ function RenderComments({ comments }) {
                         )
                     })}
                 </ul>
-                <CommentForm />
+                <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         )
     } else {
-        return <div></div>
+        return <div/>
     }
 }
 
 const DishDetail = (props) => {
-    if (props.dish != null) {
+    
+    if (props.isLoading){
+        return(
+            <div className="container">
+                <div className="row">
+                    <Loading/>
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess){
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+    
+    
+    else if (props.dish != null) {
         return (
             <div className="container">
                 <div className="row">
@@ -208,13 +231,15 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments}
+                    addComment={props.addComment}
+                    dishId={props.dish.id}/>
                 </div>
             </div>
         )
     } else {
-        return <div></div>
+        return <div/>
     }
-}
+};
 
 export default DishDetail
