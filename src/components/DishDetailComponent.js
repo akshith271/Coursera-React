@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     Card,
     CardImg,
@@ -14,10 +14,11 @@ import {
     Label,
     Col,
     Row,
-} from 'reactstrap'
-import { Link } from 'react-router-dom'
-import { Control, LocalForm, Errors } from 'react-redux-form'
-import {Loading} from "./LoadingComponent";
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -28,27 +29,32 @@ class CommentForm extends Component {
         this.state = {
             isModalOpen: false,
         };
-        this.toggleModal = this.toggleModal.bind(this)
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-    
+        this.props.addComment(
+            this.props.dishId,
+            values.rating,
+            values.name,
+            values.comment
+        );
+
         // event.preventDefault();
     }
 
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen,
-        })
+        });
     }
 
     render() {
         return (
             <div>
                 <Button outline color="secondary" onClick={this.toggleModal}>
-                    <span className="fa fa-pencil fa-lg"/> Submit Comment
+                    <span className="fa fa-pencil fa-lg" /> Submit Comment
                 </Button>
 
                 <Modal
@@ -61,9 +67,7 @@ class CommentForm extends Component {
                             onSubmit={(values) => this.handleSubmit(values)}
                         >
                             <Row className="form-group">
-                                <Label className="ml-3">
-                                    Rating
-                                </Label>
+                                <Label className="ml-3">Rating</Label>
                                 <Col md={12}>
                                     <Control.select
                                         model=".rating"
@@ -80,9 +84,7 @@ class CommentForm extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label className="ml-3">
-                                    Your Name
-                                </Label>
+                                <Label className="ml-3">Your Name</Label>
                                 <Col md={12}>
                                     <Control.text
                                         model=".name"
@@ -136,7 +138,7 @@ class CommentForm extends Component {
                     </ModalBody>
                 </Modal>
             </div>
-        )
+        );
     }
 }
 
@@ -144,7 +146,7 @@ function RenderDish({ dish }) {
     if (dish != null) {
         return (
             <Card className="col-12 col-md-5 m-1">
-                <CardImg top src={dish.image} alt={dish.name} />
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>
                         <strong>{dish.name}</strong>
@@ -152,9 +154,9 @@ function RenderDish({ dish }) {
                     <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>
-        )
+        );
     } else {
-        return <div/>
+        return <div />;
     }
 }
 
@@ -179,29 +181,27 @@ function RenderComments({ comments, addComment, dishId }) {
                                     )}
                                 </p>
                             </li>
-                        )
+                        );
                     })}
                 </ul>
                 <CommentForm dishId={dishId} addComment={addComment} />
             </div>
-        )
+        );
     } else {
-        return <div/>
+        return <div />;
     }
 }
 
 const DishDetail = (props) => {
-    
-    if (props.isLoading){
-        return(
+    if (props.isLoading) {
+        return (
             <div className="container">
                 <div className="row">
-                    <Loading/>
+                    <Loading />
                 </div>
             </div>
         );
-    }
-    else if (props.errMess){
+    } else if (props.errMess) {
         return (
             <div className="container">
                 <div className="row">
@@ -209,10 +209,7 @@ const DishDetail = (props) => {
                 </div>
             </div>
         );
-    }
-    
-    
-    else if (props.dish != null) {
+    } else if (props.dish != null) {
         return (
             <div className="container">
                 <div className="row">
@@ -231,15 +228,17 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments}
-                    addComment={props.addComment}
-                    dishId={props.dish.id}/>
+                    <RenderComments
+                        comments={props.comments}
+                        addComment={props.addComment}
+                        dishId={props.dish.id}
+                    />
                 </div>
             </div>
-        )
+        );
     } else {
-        return <div/>
+        return <div />;
     }
 };
 
-export default DishDetail
+export default DishDetail;

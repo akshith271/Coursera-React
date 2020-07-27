@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     Card,
     CardImg,
@@ -6,18 +6,20 @@ import {
     CardBody,
     CardTitle,
     CardSubtitle,
-} from 'reactstrap'
-import { Loading } from './LoadingComponent'
+} from 'reactstrap';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 function RenderCard({ item, isLoading, errMess }) {
     if (isLoading) {
-        return <Loading />
+        return <Loading />;
     } else if (errMess) {
-        return <h4>{errMess}</h4>
-    } else
+        return <h4>{errMess}</h4>;
+    } else {
+        if (!item) return null;
         return (
             <Card>
-                <CardImg src={item.image} alt={item.name} />
+                <CardImg src={baseUrl + item.image} alt={item.name} />
                 <CardBody>
                     <CardTitle>{item.name}</CardTitle>
                     {item.designation ? (
@@ -26,7 +28,8 @@ function RenderCard({ item, isLoading, errMess }) {
                     <CardText>{item.description}</CardText>
                 </CardBody>
             </Card>
-        )
+        );
+    }
 }
 
 function Home(props) {
@@ -37,7 +40,7 @@ function Home(props) {
                     <RenderCard
                         item={props.dish}
                         isLoading={props.dishesLoading}
-                        errMess={props.dishesErrMess}
+                        errMess={props.dishErrMess}
                     />
                 </div>
                 <div className="col-12 col-md m-1">
@@ -48,7 +51,7 @@ function Home(props) {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
