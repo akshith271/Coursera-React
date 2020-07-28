@@ -28,7 +28,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "prettify": "pretty-quick --staged"
+        "prettify": "pretty-quick --staged",
+        "json": "cd ../../json-server && json-server --watch db.json -p 3001 -d 2000"
     },
     "husky": {
         "hooks": {

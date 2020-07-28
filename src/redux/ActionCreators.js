@@ -2,16 +2,6 @@ import * as ActionTypes from './ActionTypes';
 import { DISHES } from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 
-export const addComment = (dishId, rating, author, comment) => ({
-    type: ActionTypes.ADD_COMMENT,
-    payload: {
-        dishId: dishId,
-        rating: rating ? rating : 1,
-        author: author,
-        comment: comment,
-    },
-});
-
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
 
@@ -21,7 +11,7 @@ export const fetchDishes = () => (dispatch) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error(
+                    let error = new Error(
                         'Error ' + response.status + ': ' + response.statusText
                     );
                     error.response = response;
@@ -60,6 +50,8 @@ export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments,
 });
+
+//PROMOTIONS
 
 export const fetchPromos = () => (dispatch) => {
     dispatch(promosLoading());
@@ -124,3 +116,48 @@ export const fetchComments = () => (dispatch) => {
         .then((comments) => dispatch(addComments(comments)))
         .catch((error) => dispatch(commentsFailed(error.message)));
 };
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+    const newComment = {
+        dishId: dishId,
+        rating: rating ? rating : 1,
+        author: author,
+        comment: comment,
+        date: new Date().toISOString(),
+    };
+
+    fetch(baseUrl + 'comments', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+    })
+        .then(
+            (response) => {
+                debugger;
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    var error = new Error(
+                        'Error ' + response.status + ': ' + response.statusText
+                    );
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                throw error;
+            }
+        )
+
+        .then((response) => {
+            dispatch(addComment(response));
+        });
+};
+
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment,
+});
