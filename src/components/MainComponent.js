@@ -13,8 +13,10 @@ import { connect } from 'react-redux';
 import {
     fetchComments,
     fetchDishes,
+    fetchLeaders,
     fetchPromos,
     postComment,
+    postFeedback,
 } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 
@@ -42,8 +44,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetFeedbackForm: () => {
         dispatch(actions.reset('feedback'));
     },
-
-    //making these two functions available for the main component
+    fetchLeaders: () => dispatch(fetchLeaders()),
+    postFeedback: (feedback) => dispatch(postFeedback(feedback)), //taking in feedback
 });
 
 class Main extends Component {
@@ -56,6 +58,7 @@ class Main extends Component {
         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchPromos();
+        this.props.fetchLeaders();
     }
 
     render() {
@@ -77,10 +80,12 @@ class Main extends Component {
                     promoLoading={this.props.promotions.isLoading}
                     promoErrMess={this.props.promotions.errMess}
                     leader={
-                        this.props.leaders.filter(
+                        this.props.leaders.leaders.filter(
                             (leader) => leader.featured
                         )[0]
                     }
+                    leadersLoading={this.props.leaders.isLoading}
+                    leadersErrMess={this.props.leaders.errMess}
                 />
             );
         };
@@ -144,6 +149,7 @@ class Main extends Component {
                                         resetFeedbackForm={
                                             this.props.resetFeedbackForm
                                         }
+                                        postFeedback={this.props.postFeedback}
                                     />
                                 )}
                             />
